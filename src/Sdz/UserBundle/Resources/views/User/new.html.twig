@@ -1,0 +1,36 @@
+{% extends "SdzUserBundle::user.html.twig" %}
+
+{% block body1 %}
+    <h2>Gestion des Utilisateurs : new</h2>
+    {% for message in app.session.flashbag.get('Notice') %}
+		<p>{{ message }}</p>
+	{% endfor %}
+    {% form_theme form 'form_table_layout.html.twig' %}
+   	{{form(form)}}
+   	{#
+	  	<table>
+	  		{{ form_errors(form) }}
+	  		<tr>
+				<td style="width: 111px">{{ form_label(form.name, "Name") }}</td>
+				<td>{{ form_widget(form.name) }}</td>
+			</tr>
+			<tr>
+				<td style="width: 111px">{{ form_label(form.username, "Email") }}</td>
+				<td>{{ form_widget(form.username) }}</td>
+			</tr>
+				<td style="width: 111px">{{ form_label(form.matricule, "Matricule") }}</td>
+				<td>{{ form_widget(form.matricule) }}</td>		
+		</table>
+
+				
+				{{ form_widget(form.password) }}</br>
+				{{ form_rest(form) }}
+   	#}
+	<ul class="record_actions">
+	    <li>
+	        <a href="{{ path('user') }}">
+	            Back to the list
+	        </a>
+	    </li>
+	</ul>
+{% endblock %}

@@ -1,0 +1,87 @@
+body
+{
+  background-color: #fff;
+
+}
+body {
+  padding-bottom: 10px;
+  
+}
+
+.col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-8 {
+        line-height: 2;
+      }
+
+.theme-dropdown .dropdown-menu {
+  position: static;
+  display: block;
+  margin-bottom: 20px;
+}
+
+.theme-showcase > p > .btn {
+  margin: 5px 0;
+}
+
+.theme-showcase .navbar .container {
+  width: auto;
+}
+.jumbotron {
+    padding-top: 30px;
+    padding-bottom: 30px;
+    margin-bottom: 30px;
+    color: inherit;
+    background-color: #c4e5c4
+}
+
+.pack{
+  font-size:2.8vw;
+  text-align: center;
+  font-family:Algerian, Arial, Helvetica, sansserif;
+  
+}
+#pack2{
+  
+	line-height: 6em;
+	height: 6em;
+}
+
+#pack3{
+  
+	float: right!important;
+	color:white;
+	
+}
+.seperator {
+  border-bottom: 2px inset #f2f5f9; 
+}
+.well.col-xs-12.col-md-4 ul div.alert.alert-danger{
+  all:unset
+}
+
+#user-table tbody tr td{
+  vertical-align:middle
+}
+.scrollspy-example {
+    position: relative;
+    height: 300px;
+    margin-top: .5rem;
+    overflow: auto;
+}
+.nav-link{
+  color:#6c757d;
+}
+nav#sidebarMenu{
+  border-radius: 10px;
+}
+.flex-column li.nav-item a.active{
+  font-weight:500;
+  color:#343a40;
+}
+.sidebar0{
+  position: fixed;
+  z-index: 5;
+  width: 263px;
+}
+#form_submit{
+  line-height:1.5;
+}

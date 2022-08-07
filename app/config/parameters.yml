@@ -1,0 +1,19 @@
+# This file is auto-generated during the composer install
+parameters:
+    database_host: 127.0.0.1
+    database_port: null
+    database_name: maintenance
+    database_user: root
+    database_password: null
+    mailer_transport: gmail
+    mailer_host: 127.0.0.1
+    mailer_user: gestiontransfo
+    mailer_password: hrohoorirfgcxyes
+    secret: c71e01e2d997ce4a399b94a179b6e8a1c58cf194
+# informations base de donnée user
+    database_driver: pdo_mysql
+    database2_host: 127.0.0.1
+    database2_port: null
+    database2_name: user
+    database2_user: root
+    database2_password: null

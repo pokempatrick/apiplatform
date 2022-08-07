@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Transformer</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ transformer.id }}</td>
+            </tr>
+            <tr>
+                <th>Serie</th>
+                <td>{{ transformer.serie }}</td>
+            </tr>
+            <tr>
+                <th>Matricule</th>
+                <td>{{ transformer.matricule }}</td>
+            </tr>
+            <tr>
+                <th>Manufacturer</th>
+                <td>{{ transformer.manufacturer }}</td>
+            </tr>
+            <tr>
+                <th>Tensioncourtcircuit</th>
+                <td>{{ transformer.tensioncourtcircuit }}</td>
+            </tr>
+            <tr>
+                <th>Noloadcurent</th>
+                <td>{{ transformer.noloadcurent }}</td>
+            </tr>
+            <tr>
+                <th>Primarytension</th>
+                <td>{{ transformer.primarytension }}</td>
+            </tr>
+            <tr>
+                <th>Secondarytension</th>
+                <td>{{ transformer.secondarytension }}</td>
+            </tr>
+            <tr>
+                <th>Puissance</th>
+                <td>{{ transformer.puissance }}</td>
+            </tr>
+            <tr>
+                <th>Secondarycurrent</th>
+                <td>{{ transformer.secondarycurrent }}</td>
+            </tr>
+            <tr>
+                <th>Primarycurrent</th>
+                <td>{{ transformer.primarycurrent }}</td>
+            </tr>
+            <tr>
+                <th>Couplage</th>
+                <td>{{ transformer.couplage }}</td>
+            </tr>
+            <tr>
+                <th>Year</th>
+                <td>{{ transformer.year }}</td>
+            </tr>
+            <tr>
+                <th>Oil</th>
+                <td>{{ transformer.oil }}</td>
+            </tr>
+            <tr>
+                <th>Commutateur</th>
+                <td>{{ transformer.commutateur }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('transformer_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('transformer_edit', { 'id': transformer.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

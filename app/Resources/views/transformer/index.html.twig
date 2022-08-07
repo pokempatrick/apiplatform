@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Transformers list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Serie</th>
+                <th>Matricule</th>
+                <th>Manufacturer</th>
+                <th>Tensioncourtcircuit</th>
+                <th>Noloadcurent</th>
+                <th>Primarytension</th>
+                <th>Secondarytension</th>
+                <th>Puissance</th>
+                <th>Secondarycurrent</th>
+                <th>Primarycurrent</th>
+                <th>Couplage</th>
+                <th>Year</th>
+                <th>Oil</th>
+                <th>Commutateur</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for transformer in transformers %}
+            <tr>
+                <td><a href="{{ path('transformer_show', { 'id': transformer.id }) }}">{{ transformer.id }}</a></td>
+                <td>{{ transformer.serie }}</td>
+                <td>{{ transformer.matricule }}</td>
+                <td>{{ transformer.manufacturer }}</td>
+                <td>{{ transformer.tensioncourtcircuit }}</td>
+                <td>{{ transformer.noloadcurent }}</td>
+                <td>{{ transformer.primarytension }}</td>
+                <td>{{ transformer.secondarytension }}</td>
+                <td>{{ transformer.puissance }}</td>
+                <td>{{ transformer.secondarycurrent }}</td>
+                <td>{{ transformer.primarycurrent }}</td>
+                <td>{{ transformer.couplage }}</td>
+                <td>{{ transformer.year }}</td>
+                <td>{{ transformer.oil }}</td>
+                <td>{{ transformer.commutateur }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('transformer_show', { 'id': transformer.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('transformer_edit', { 'id': transformer.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('transformer_new') }}">Create a new transformer</a>
+        </li>
+    </ul>
+{% endblock %}

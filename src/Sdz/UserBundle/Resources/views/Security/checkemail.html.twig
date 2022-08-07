@@ -1,0 +1,26 @@
+{% extends "SdzUserBundle::security.html.twig" %}
+
+{% block body1 %}
+    <h1>Mail de vérification </h1>
+    
+    	
+        Bonjour M./Mme {{entity.name}}</br>
+        Email : {{entity.username}}</br>
+        {% for message in app.session.flashbag.get('Test') %} 
+           <p>{{ message }}</p>
+        {% endfor %}
+        Entrer le code reçu
+        <div>
+            {% if check_form is defined %}
+                {% form_theme check_form 'form_table_layout.html.twig' %}
+                {{ form(check_form) }}
+            {% endif %}
+           
+            <a href="{{ path('reset_password') }}" >
+                    Renvoyer le code d'identification
+            </a>  
+            
+            
+        </div>
+
+{% endblock %}

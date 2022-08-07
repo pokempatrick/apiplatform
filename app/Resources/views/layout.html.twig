@@ -1,0 +1,102 @@
+{# app/Resources/views/layout.html.twig #}
+<!DOCTYPE html>
+<html lang='fr'class="h-100"> 
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		
+		<title>{% block title %} Maintenance Transfo {% endblock %}</title>
+		{% block stylesheets %}
+			<link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}"type="text/css" />
+			<link rel="stylesheet" href="{{ asset('css/bootstrap-theme.min.css') }}"type="text/css" />
+			<link rel="stylesheet" href="{{ asset('css/sdear.css') }}"type="text/css" />
+			<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+		{% endblock %}
+		
+		<style type="text/css">
+		</style>
+		 <link rel="icon" type="image/x-icon" href="{{ asset('logo.png') }}" />
+	</head>
+	<body class="d-flex flex-column h-100">
+	<!-- {#@author Pokem Ladzou email: pokempatrick@yahoo.fr#} -->
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+			{% if app.user is null %}
+				<a class="navbar-brand" href="{{ path('login') }}">
+					<img src="{{ asset('img/logo.png')}}" width="35" height="30" class="d-inline-block align-top" alt="Erreur">
+				</a>
+			{% else %}
+				<a class="navbar-brand" href="{{ path('reset_password_logout', { 'id': app.user.id }) }}">
+					<img src="{{ asset('img/logo.png')}}" width="35" height="30" class="d-inline-block align-top" alt="Erreur">
+				</a>
+			{% endif %}
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<span class="navbar-brand">
+					{% if app.user is null %}
+			        {% else %}
+			            {# {{app.user.magasin}} #}
+			            Maintenance
+			        {% endif %}
+				</span>
+				<ul class="navbar-nav mr-auto">
+				</ul>
+				<span class="nav-item dropdown">
+					<a class="nav-link navbar-text" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<i class="fas fa-user"></i>
+					</a>
+					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+						{% if app.user is null %}
+	                        <a class="dropdown-item" href="{{ path('login') }}">Connexion</a>
+	                    {% else %}
+	                        <a class="dropdown-item" href="{{ path('reset_password_logout', { 'id': app.user.id }) }}">Déconnexion </a>
+	                        <a class="dropdown-item" href="{{ path('change_password', { 'id': app.user.id }) }}">Mot de passe</a>
+	                    {% endif %}
+					</div>
+				</span>
+				<span class="navbar-text">
+					{% if app.user is null %}
+			            Anonyme
+			        {% else %}
+			            {{app.user.name}}        
+			        {% endif %}
+				</span>
+			</div>
+		</nav>
+			
+		</br>
+		</br>
+		</br>
+		<div class="container theme-showcase" role="main">
+			{% block body %}
+				<div class="row">
+					<div class="col-xs-3 col-md-3" >
+						{% block menu %}
+						{% endblock %}
+					</div>
+					<div class="col-xs-9 col-md-9" >
+						{% block body1 %}
+						{% endblock %}
+					</div><!--/.col-xs-12.col-sm-9-->
+				</div><!--/row-->
+				<hr>
+			{% endblock %}
+		</div>
+		<footer class="footer mt-auto py-3">
+			<div class="container">
+		    	<span class="text-muted">Always do your best @P.LAD.</span>
+			</div>
+		</footer>
+		{% block javascripts %}
+			{# Ajoutez ces javascripts si vous comptez vous servir des fonctionnalités du bootstrap Twitter #}
+		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+		<script type="text/javascript" src="{{ asset('js/bootstrap.min.js')}}"></script>
+		<script type="text/javascript" src="{{ asset('js/sdear.js')}}"></script>
+		
+		{% endblock %}
+	</body>
+</html>

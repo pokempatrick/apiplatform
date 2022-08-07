@@ -1,0 +1,52 @@
+parameters:
+    sdz_user.cron_anonyme.class: Sdz\UserBundle\Service\CronAnonyme
+    sdz_user.resiliation_adder.class: Sdz\UserBundle\Service\ResiliationAdder
+    sdz_user.access_resiliation.class: Sdz\UserBundle\Service\AccessResiliation
+    sdz_user.subscription_update.class: Sdz\UserBundle\Service\Subscription
+    sdz_user.password_encode.class: Sdz\UserBundle\Service\EncodePassWord
+    sdz_user.subscription_Listener.class: Sdz\UserBundle\EventListener\SubscriptionListener
+    sdz_user.resiliation_adder.event_listener.class: Sdz\UserBundle\EventListener\ResiliationListener
+    sdz_user.token_authenticator.class: Sdz\UserBundle\Service\TokenAuthenticator
+
+services:
+#  Désactivation des utilisateurs courants
+    sdz_user.cronanonyme:
+        class: "%sdz_user.cron_anonyme.class%"
+        arguments: ["@doctrine"]
+#  Désactivation des utilisateurs courants
+    sdz_user.accessresiliation:
+        class: "%sdz_user.access_resiliation.class%"
+        arguments: ["@doctrine"]
+#  Mise à jour limite d'accès
+    sdz_user.subscription:
+        class: "%sdz_user.subscription_update.class%"
+        arguments: ['@doctrine','@security.token_storage']
+# Ecouteur de mise à jour des utilisateurs
+    sdz_user.subscription_update_Listener:
+        class: "%sdz_user.subscription_Listener.class%"
+        arguments: ['@sdz_user.subscription','@sdz_user.passwordencode']
+        tags:
+            - { name: doctrine.event_listener, event: prePersist }
+            - { name: doctrine.event_listener, event: preUpdate }
+# Ecriptage du mot de passe
+    sdz_user.passwordencode:
+        class: "%sdz_user.password_encode.class%"
+        arguments: ['@security.password_encoder']
+#  Commande de désactivation
+    sdz_user.cronanonymecommand:
+        class: Sdz\UserBundle\Command\DesableUserCommand
+        arguments: ["@sdz_user.cronanonyme"]
+        tags: ['console.command']
+#  Résiliation de l'abonnement
+    sdz_user.resiliationadder:
+        class: "%sdz_user.resiliation_adder.class%"
+#  Listener de résiliation d'abonnement
+    sdz_user.resiliationlistener:
+        class: "%sdz_user.resiliation_adder.event_listener.class%"
+        arguments: ["@sdz_user.resiliationadder","@security.token_storage"]
+        tags:
+            - { name: kernel.event_listener, event: kernel.response, method: processWarning }
+#   Génération du token après authentification
+    sdz_user.tokenauthenticator:
+        class: "%sdz_user.token_authenticator.class%"
+        arguments: ['@doctrine','@security.password_encoder', '@router']

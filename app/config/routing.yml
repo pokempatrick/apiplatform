@@ -1,0 +1,46 @@
+downgrading:
+    resource: "@DowngradingBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+repair:
+    resource: "@RepairBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+quality:
+    resource: "@QualityBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+third_party:
+    resource: "@ThirdPartyBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+store_entrance:
+    resource: "@StoreEntranceBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+diagnostic:
+    resource: "@DiagnosticBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+sdz_user_user:
+    resource: "@SdzUserBundle/Resources/config/routing.yml"
+    prefix:   /
+    
+login:
+    path:   /login
+    defaults:  { _controller: SdzUserBundle:Security:login }
+    
+api_login_check:
+    path: /api/login_check
+
+login_check:
+    path:   /login_check
+
+logout:
+    path:   /logout

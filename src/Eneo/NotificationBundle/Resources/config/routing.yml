@@ -1,0 +1,3 @@
+eneo_notification_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: EneoNotificationBundle:Default:index }

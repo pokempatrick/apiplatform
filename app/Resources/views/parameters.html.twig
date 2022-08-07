@@ -1,0 +1,48 @@
+<nav class="navbar navbar-light sticky-top bg-light flex-md-nowrap p-0 rounded">
+    <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse" data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button> 
+    <ul class="navbar-nav px-3">
+        <li class="nav-item text-nowrap">
+        </li>
+    </ul>
+</nav>
+
+<div class="sidebar0">
+    <nav id="sidebarMenu" class="d-md-block bg-light sidebar collapse">
+        <div class="sidebar-sticky pt-3">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a {% if (edifice is defined) and 
+                    not((contrats is defined) or (contrat is defined)) %} class="nav-link active"{% else %}class="nav-link"{% endif %} href="{{ path('edifice_show', { 'id': edifice.id }) }}"><i class="fas fa-file"></i>
+                            Sommaire
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a {% if ((factures is defined) or (facture is defined)) %} class="nav-link active"{% else %}class="nav-link"{% endif %} href="{{ path('facture_index', { 'id': edifice.id }) }}"><i class="fas fa-file"></i> 
+                            Gestion des Factures
+                    </a>
+                </li>
+                <!-- <li class="nav-item">
+                    <a {% if entities.0.nom is defined %} class="nav-link active"{% else %}class="nav-link"{% endif %} href="#"><i class="fas fa-file"></i> 
+                            Gestions des Reçus
+                    </a>
+                </li> -->
+                <li class="nav-item">
+                    <a {% if ((contrats is defined) or (contrat is defined) and 
+                    not((factures is defined) or (facture is defined))) %} class="nav-link active"{% else %}class="nav-link"{% endif %} href="{{ path('contrat_index', { 'id': edifice.id }) }}"><i class="fas fa-file"></i> 
+                            Gestion des Contrats
+                    </a>
+                </li>
+                <!-- <li class="nav-item">
+                    <a {% if ateliers is defined %} class="nav-link active"{% else %}class="nav-link"{% endif %} href="#"><i class="fas fa-file"></i> 
+                            Coupure et Remise
+                    </a>
+                </li> -->
+            </ul>
+            {%set p = 1+(edifice.id - edifice.id%10)/10 %}
+            <a href="{{ path('edifice_index', {'page': p}) }}" class="btn btn-light" data-toggle="tooltip" data-placement="bottom" title="Retour à la liste"><i class="fas fa-arrow-alt-circle-left"></i></a>
+            <a href="{{ path('edifice_update', { 'id': edifice.id }) }}" class="btn btn-light" data-toggle="tooltip" data-placement="bottom" title="Editer"> <i class="fas fa-edit"></i></a>
+        </div>
+    </nav>
+</div>

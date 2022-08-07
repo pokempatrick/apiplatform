@@ -1,0 +1,17 @@
+sdz_user_user:
+    resource: "@SdzUserBundle/Resources/config/routing/user.yml"
+    prefix:   /admin/user
+
+sdz_user_resetpassword:
+    resource: "@SdzUserBundle/Resources/config/routing/resetpassword.yml"
+    prefix:   /resetpassword
+
+change_password:
+    path:     /changepassword/edit/{id}
+    defaults: { _controller: "SdzUserBundle:Security:edit" }
+    requirements: { _method: get }
+
+user_token:
+    path:     /token
+    defaults: { _controller: "SdzUserBundle:User:token" }
+    requirements: { _method: get }

@@ -1,0 +1,45 @@
+user:
+    path:     /{page}
+    defaults: { _controller: "SdzUserBundle:User:index", page: 1 }
+    requirements:
+        page: \d*
+
+user_show:
+    path:     /show/{id}
+    defaults: { _controller: "SdzUserBundle:User:show" }
+
+user_new:
+    path:     /new
+    defaults: { _controller: "SdzUserBundle:User:new" }
+
+user_create:
+    path:     /create
+    defaults: { _controller: "SdzUserBundle:User:create" }
+    requirements: { _method: post }
+
+user_edit:
+    path:     edit/{id}
+    defaults: { _controller: "SdzUserBundle:User:edit" }
+
+user_access:
+    path:     access/{id}
+    defaults: { _controller: "SdzUserBundle:User:access" }
+
+user_update:
+    path:     update/{id}
+    defaults: { _controller: "SdzUserBundle:User:update" }
+    requirements: { _method: post|put }
+
+user_edit_role:
+    path:     editrole/{id}
+    defaults: { _controller: "SdzUserBundle:User:edit_role" }
+
+user_update_role:
+    path:     updaterole/{id}
+    defaults: { _controller: "SdzUserBundle:User:update_role" }
+    requirements: { _method: post|put }
+
+user_delete:
+    path:     delete/{id}
+    defaults: { _controller: "SdzUserBundle:User:delete" }
+    requirements: { _method: post|delete }

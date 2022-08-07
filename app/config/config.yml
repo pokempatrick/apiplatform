@@ -1,0 +1,190 @@
+imports:
+    - { resource: parameters.yml }
+    - { resource: security.yml }
+    - { resource: services.yml }
+    - { resource: "@SdzUserBundle/Resources/config/services.yml" }
+    - { resource: "@DiagnosticBundle/Resources/config/services.yml" }
+    - { resource: "@StoreEntranceBundle/Resources/config/services.yml" }
+    - { resource: "@ThirdPartyBundle/Resources/config/services.yml" }
+    - { resource: "@QualityBundle/Resources/config/services.yml" }
+    - { resource: "@RepairBundle/Resources/config/services.yml" }
+    - { resource: "@DowngradingBundle/Resources/config/services.yml" }
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+parameters:
+    locale: fr
+
+framework:
+    #esi:             ~
+    #translator:      { fallbacks: ["%locale%"] }
+    secret:          "%secret%"
+    router:
+        resource: "%kernel.root_dir%/config/routing.yml"
+        strict_requirements: ~
+    form:            ~
+    csrf_protection: ~
+    validation:      { enable_annotations: true }
+    templating:
+        engines: ['twig']
+    default_locale:  "%locale%"
+    trusted_hosts:   ~
+    trusted_proxies: ~
+    session:
+        # http://symfony.com/doc/current/reference/configuration/framework.html#handler-id
+        cookie_lifetime: 28800
+        gc_maxlifetime: 3600
+        handler_id:  session.handler.native_file
+        save_path:   "%kernel.root_dir%/../var/sessions/%kernel.environment%"
+    fragments:       ~
+    http_method_override: true
+    assets: ~
+    serializer:
+        enabled: true
+        enable_annotations: true
+    property_info:
+        enabled: true
+
+# Twig Configuration
+twig:
+    debug:            "%kernel.debug%"
+    strict_variables: "%kernel.debug%"
+
+# Doctrine Configuration
+doctrine:
+    dbal:
+        default_connection: default
+        connections:
+            default:
+                driver:    pdo_mysql
+                host:     "%database_host%"
+                port:     "%database_port%"
+                dbname:   "%database_name%"
+                user:     "%database_user%"
+                password: "%database_password%"
+                charset:  UTF8
+            user:
+                driver:   "%database_driver%"
+                host:     "%database2_host%"
+                port:     "%database2_port%"
+                dbname:   "%database2_name%"
+                user:     "%database2_user%"
+                password: "%database2_password%"
+                charset:  UTF8
+    orm:
+        default_entity_manager: default
+        entity_managers:
+            default:
+                connection: default
+                mappings:
+                    DiagnosticBundle: ~   
+                    DowngradingBundle: ~   
+                    StoreEntranceBundle: ~   
+                    RepairBundle: ~   
+                    ThirdPartyBundle: ~   
+                    QualityBundle: ~   
+            user:
+                connection: user
+                mappings:
+                    SdzUserBundle: ~
+        auto_generate_proxy_classes: "%kernel.debug%"
+        # naming_strategy: doctrine.orm.naming_strategy.underscore
+        # auto_mapping: true
+
+# Swiftmailer Configuration
+swiftmailer:
+    transport: "%mailer_transport%"
+    host:      "%mailer_host%"
+    username:  "%mailer_user%"
+    password:  "%mailer_password%"
+    spool:     { type: memory }
+
+# doctrine_migrations Configuration
+doctrine_migrations:
+    dir_name: "%kernel.root_dir%/DoctrineMigrations"
+    namespace: Application\Migrations
+    table_name: migration_versions
+    name: Application Migrations
+    organize_migrations: false
+     
+# webpack_encore configuration
+webpack_encore:
+    # The path where Encore is building the assets.
+    # This should match Encore.setOutputPath() in webpack.config.js.
+    output_path: "%kernel.project_dir%/web/build"
+    # If multiple builds are defined (as shown below), you can disable the default build:
+    # output_path: false
+
+    # if using Encore.enableIntegrityHashes() specify the crossorigin attribute value (default: false, or use 'anonymous' or 'use-credentials')
+    # crossorigin: 'anonymous'
+
+    # Cache the entrypoints.json (rebuild Symfony's cache when entrypoints.json changes).
+    # To enable caching for the production environment, creating a webpack_encore.yaml in the config/packages/prod directory with this value set to true
+    # Available in version 1.2
+    #cache: 'false'
+
+sensio_framework_extra:
+    request: { converters: true }
+    view: { annotations: true }
+
+# rest bundle configuration
+fos_rest:
+    body_converter:
+        enabled: true
+        validate: true
+        validation_errors_argument: violations
+    param_fetcher_listener: force
+    body_listener:
+        enabled: true
+    view:
+        formats: { json: true, xml: false, rss: false }
+        view_response_listener: true
+    serializer:
+        serialize_null: true
+    format_listener:
+        rules:
+            - { path: '^/api/[a-zA-Z_-]+/(new|update|delete)', priorities: ['json'], fallback_format: 'json'}
+            - { path: '^/api/parameters', priorities: ['json'], fallback_format: 'json' }
+            # - { path: '^/login_check', priorities: ['json'], fallback_format: 'json' }
+            - { path: '^/api/login_check', priorities: ['json'], fallback_format: 'json' }
+            - { path: '^/api/[a-z_-]+/(index)', priorities: ['text/html'], fallback_format: 'text/html' }
+            - { path: '^/[^api]', priorities: ['text/html'], fallback_format: 'text/html' }
+            - { path: '^/admin', priorities: ['text/html'], fallback_format: 'text/html' }
+
+# nelmio bundle configuration
+nelmio_cors:
+        defaults:
+            allow_credentials: false
+            allow_origin: []
+            allow_headers: []
+            allow_methods: []
+            expose_headers: []
+            max_age: 0
+            hosts: []
+            origin_regex: false
+            forced_allow_origin_value: ~
+        paths:
+            '^/api/':
+                allow_origin: ['*']
+                allow_headers: ['*']
+                allow_methods: ['POST', 'PUT', 'GET', 'DELETE']
+                max_age: 3600
+            '^/login_check|token|login':
+                allow_origin: ['*']
+                allow_headers: ['*']
+                allow_methods: ['POST', 'PUT', 'GET', 'DELETE']
+                max_age: 3600
+            '^/':
+                origin_regex: true
+                allow_origin: ['^http://localhost:[0-9]+']
+                allow_headers: ['X-Custom-Auth']
+                allow_methods: ['POST', 'PUT', 'GET', 'DELETE']
+                max_age: 3600
+                hosts: ['^api\.']
+                
+# jwt authentification for symfony
+lexik_jwt_authentication:
+    secret_key:     '%kernel.project_dir%/config/jwt/private.pem' # required for token creation
+    public_key:     '%kernel.project_dir%/config/jwt/public.pem'  # required for token verification
+    pass_phrase:    'your_secret_passphrase' # required for token creation, usage of an environment variable is recommended
+    token_ttl:      3600

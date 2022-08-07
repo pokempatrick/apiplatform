@@ -1,0 +1,40 @@
+parameters:
+    eneo_notification.entity_param_converter.class: Eneo\NotificationBundle\Service\EntityParamConverter       
+    eneo_notification.session_idle.event_listener.class: Eneo\NotificationBundle\EventListener\SessionIdleHandlerListener       
+    eneo_notification.operateur_update.class: Eneo\NotificationBundle\Service\OperateurUpdate       
+    eneo_notification.operateur.event_listener.class: Eneo\NotificationBundle\EventListener\OperateurUpdateListener
+    eneo_notification.database_provider.class: Eneo\NotificationBundle\Service\DatabaseProvider       
+    eneo_notification.conformity_update.class: Eneo\NotificationBundle\Service\ConformityUpdate       
+
+services:
+    # mise à jour de l'opérateur dans les entités
+    eneo_notification.operateurupdate:
+        class: "%eneo_notification.operateur_update.class%"
+        arguments: ['@security.token_storage']
+    #Choix de la base des données des utilisateurs
+    eneo_notification.databaseprovider:
+        class: "%eneo_notification.database_provider.class%"
+        arguments: ['@doctrine','@security.token_storage']
+    # Ecouteur de mise à jour des opérateurs
+    app.doctrine_operateur_listener:
+        class: "%eneo_notification.operateur.event_listener.class%"
+        arguments: ['@eneo_notification.operateurupdate','@eneo_notification.conformityupdate']
+        tags:
+            - { name: doctrine.event_listener, event: prePersist }
+            - { name: doctrine.event_listener, event: preUpdate }
+    # automatic log Out for inactivity all 1 hour
+    eneo_notification.session_idle_listener:
+        class: "%eneo_notification.session_idle.event_listener.class%"
+        arguments: ["@session", '@security.token_storage',"@router", 3600]
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+    # Paramconverter choix de l'entity manager
+    eneo_notification.paramconverterentity:
+        class: "%eneo_notification.entity_param_converter.class%"
+        arguments: ['@eneo_notification.databaseprovider','@doctrine']
+        tags:
+           - { name: request.param_converter, priority: 2 }
+    # mise à jour de la conformité des transformateurs
+    eneo_notification.conformityupdate:
+        class: "%eneo_notification.conformity_update.class%"
+        arguments: ['@eneo_notification.databaseprovider']

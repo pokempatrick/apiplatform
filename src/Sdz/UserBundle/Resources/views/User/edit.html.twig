@@ -1,0 +1,15 @@
+{% extends "SdzUserBundle::user.html.twig" %}
+
+{% block body1 %}
+    <h2>Gestion des Utilisateurs : Edit</h2>
+    {% form_theme edit_form 'form_table_layout.html.twig' %}
+        {{ form(edit_form) }}
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('user') }}">
+            Back to the list
+        </a>
+    </li>
+    <li>{{ form(delete_form) }}</li>
+</ul>
+{% endblock %}
