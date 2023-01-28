@@ -2,6 +2,7 @@
 
 namespace DiagnosticBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -9,6 +10,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * Diagnostic
  *
+ * @ApiResource(attributes={
+ *     "normalization_context"={"groups"={"diagnostic"}},
+ *     "denormalization_context"={"groups"={"diagnostic"}}
+ * })
  * @ORM\Table(name="diagnostic")
  * @ORM\Entity(repositoryClass="DiagnosticBundle\Repository\DiagnosticRepository")
  */

@@ -33,7 +33,8 @@
         "symfony/webpack-encore-bundle": "v1.7",
         "friendsofsymfony/rest-bundle": "v2.8",
         "nelmio/cors-bundle": "v1.5",
-        "lexik/jwt-authentication-bundle": "v2.10.7"
+        "lexik/jwt-authentication-bundle": "v2.10.7",
+        "api-platform/core": "v2.1"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
