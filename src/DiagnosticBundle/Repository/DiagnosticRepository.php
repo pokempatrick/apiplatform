@@ -19,16 +19,17 @@ class DiagnosticRepository extends \Doctrine\ORM\EntityRepository
 				être inférieur à 1 (valeur : "'.$page.'").');
 		} 
 		// La construction de la requête reste inchangée
-		$query = $this->_em->createQuery('SELECT d, t, r FROM DiagnosticBundle:Diagnostic d
-			ORDER BY d.id DESC
-			LEFT JOIN d.transformer t
-			LEFT JOIN d.result r'
-			);
+
+		$qb = $this->createQueryBuilder('p');
+		$qb=$this->andTransformer($qb);
+		$qb=$this->andResult($qb);
+		$query = $qb->getQuery();
 		// On définit la demande  à partir de laquel commencer la liste
 		$query->setFirstResult(($page-1) * $nombreParPage)
 				->setMaxResults($nombreParPage);
 		// (n'oubliez pas le use correspondant en début de fichier)
-		return new Paginator($query);
+		$paginator =  new Paginator($query);
+		return $paginator->getQuery()->getArrayResult();
 	}
 
 	public function findDiagnosticSerialOrMatricule($name)
@@ -107,5 +108,11 @@ class DiagnosticRepository extends \Doctrine\ORM\EntityRepository
 	{
 		return $qb->leftJoin('p.transformer','t')
 					->addSelect('t');
+	}
+
+	private function andResult(\Doctrine\ORM\QueryBuilder $qb)
+	{
+		return $qb->leftJoin('p.result','r')
+					->addSelect('r');
 	}
 }

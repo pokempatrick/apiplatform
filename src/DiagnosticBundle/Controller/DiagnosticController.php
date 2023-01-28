@@ -27,7 +27,7 @@ class DiagnosticController extends FOSRestController
 {
     /**
      * Create new diagnostic
-     * @Post("/new", name="diagnostic_new")
+     * @Post( name="diagnostic_new")
      * @View(statusCode = 201, 
      * serializerGroups = {"diagnostic","result","inspectionVisuelle", 
      *       "turnRatio","isolement","transformer","internInspection" }
@@ -48,9 +48,10 @@ class DiagnosticController extends FOSRestController
 
     /**
      * Update existing Demande de diagnostic
-     * @Put("/update/{id}", name="diagnostic_update", requirements={"id": "\d+"})
+     * @Put("/{id}", name="diagnostic_update", requirements={"id": "\d+"})
      * @View(statusCode = 200, 
-     * serializerGroups = {"diagnostic","result" }
+     * serializerGroups = {"diagnostic","result","inspectionVisuelle", 
+     *       "turnRatio","isolement","transformer","internInspection" }
      * )
      */
     public function updateAction(Diagnostic $diagnostic, Request $request)
@@ -72,7 +73,7 @@ class DiagnosticController extends FOSRestController
      *
      * @View(StatusCode = 204)
      * @Delete(
-     *      path="/delete/{id}", 
+     *      path="/{id}", 
      *      name="diagnostic_delete", 
      *      requirements={"id": "\d+"}
      * )
@@ -87,12 +88,12 @@ class DiagnosticController extends FOSRestController
         $em = $this->container->get('eneo_notification.databaseprovider')->EntityManager();
         $em->remove($diagnostic);
         $em->flush();
-        return ;
+        return new JsonResponse(["message"=>"Diagnoctic supprimé"], 204);
     }
 
     /**
      * @Get(
-     *     path = "/show/{id}",
+     *     path = "/{id}",
      *     name = "diagnostic_show",
      *     requirements = {"id"="\d+"}
      * )
@@ -110,24 +111,23 @@ class DiagnosticController extends FOSRestController
 
     /**
      * Lists all the diagnostic
-     * @Route("/{page}", 
-     *  name="diagnostic_index",
-     *  defaults={"page": 1},
-     *  requirements={
-            "page": "\d+"
-            })
-     * @Method("GET")
+     * @Get(
+     *     path = "/index/{page}",
+     *     name = "diagnostic_index",
+     *     defaults={"page": 1},
+     *     requirements = {"page": "\d+"}
+     * )
+     * @View(
+     *      statusCode = 200,
+     *      serializerGroups = {"diagnostic"}
+     * )
      */
     public function indexAction($page)
     {
         $em = $this->container->get('eneo_notification.databaseprovider')->EntityManager();
         $diagnostics = $em->getRepository('DiagnosticBundle:Diagnostic')
                             ->getDiagnosticIndex(10, $page);
-        return $this->render('DiagnosticBundle:Diagnostic:index.html.twig', array(
-            'diagnostics'   => $diagnostics,
-            'page'          => $page,
-            'nombrePage'    => ceil(count($diagnostics)/10),
-        ));
+        return $diagnostics;
     }
 
     private function getArrayErrors($obj_errors)

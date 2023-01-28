@@ -56,7 +56,7 @@ doctrine:
         default_connection: default
         connections:
             default:
-                driver:    pdo_mysql
+                driver:   "%database_driver%"
                 host:     "%database_host%"
                 port:     "%database_port%"
                 dbname:   "%database_name%"
@@ -143,9 +143,10 @@ fos_rest:
         serialize_null: true
     format_listener:
         rules:
-            - { path: '^/api/[a-zA-Z_-]+/(new|update|delete)', priorities: ['json'], fallback_format: 'json'}
+            # - { path: '^/api/[a-zA-Z_-]+/(new|update|delete)', priorities: ['json'], fallback_format: 'json'}
+            - { path: '^/api/', priorities: ['json'], fallback_format: 'json'} # Toutes les routes api en json
+            - { path: '^/api/diagnostic', priorities: ['json'], fallback_format: 'json'}
             - { path: '^/api/parameters', priorities: ['json'], fallback_format: 'json' }
-            # - { path: '^/login_check', priorities: ['json'], fallback_format: 'json' }
             - { path: '^/api/login_check', priorities: ['json'], fallback_format: 'json' }
             - { path: '^/api/[a-z_-]+/(index)', priorities: ['text/html'], fallback_format: 'text/html' }
             - { path: '^/[^api]', priorities: ['text/html'], fallback_format: 'text/html' }
@@ -187,4 +188,4 @@ lexik_jwt_authentication:
     secret_key:     '%kernel.project_dir%/config/jwt/private.pem' # required for token creation
     public_key:     '%kernel.project_dir%/config/jwt/public.pem'  # required for token verification
     pass_phrase:    'your_secret_passphrase' # required for token creation, usage of an environment variable is recommended
-    token_ttl:      3600
+    token_ttl:      28800 # life time of the token created in second
