@@ -16,7 +16,6 @@
 /vendor/
 /web/bundles/
 /tests
-/web/test
-/web/uploads
-/web/img
+/web/test/
+/web/uploads/
 
